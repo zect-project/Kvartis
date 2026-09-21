@@ -7,13 +7,12 @@ import pandas as pd
 import numpy as np
 import joblib
 
-
-# ===  НАСТРОЙКА ПУТЕЙ  ===
 BASE_DIR = Path(__file__).resolve().parent.parent  
 MODEL_PATH = BASE_DIR / "models" / "kvartis_model.cbm"
 SCALER_PATH = BASE_DIR / "models" / "kvartis_scaler.pkl"
 
-# ===  ЗАГРУЗКА МОДЕЛИ И СКАЛЕРА  ===
+
+# ЗАГРУЗКА МОДЕЛИ И СКАЛЕРА
 model = CatBoostRegressor()
 model.load_model(str(MODEL_PATH))
 scaler = joblib.load(str(SCALER_PATH))
@@ -50,23 +49,23 @@ async def predict(
     building_age = current_year - year
 
     data = {
-        'city': [city],
-        'rooms': [rooms],
-        'm2': [m2],
-        'kitchen_m2': [kitchen_m2],
-        'repair': [repair],
-        'district': [district],
-        'building_age': [building_age], 
-        'floor': [floor],
-        'all_floor': [all_floor]
+        "city": [city],
+        "rooms": [rooms],
+        "m2": [m2],
+        'kitchen_m2": [kitchen_m2],
+        "repair": [repair],
+        "district": [district],
+        "building_age": [building_age], 
+        "floor": [floor],
+        "all_floor": [all_floor]
     }
     x = pd.DataFrame(data)
 
-    # ===  Масштабирование числовых признаков  ===
-    numeric = ['rooms', 'm2', 'kitchen_m2', 'building_age', 'floor', 'all_floor']
+    # Масштабирование числовых признаков  
+    numeric = ["rooms", "m2", "kitchen_m2", "building_age", "floor", "all_floor"]
     x[numeric] = scaler.transform(x[numeric])
 
-    # ===  Предсказание  ===
+    # Предсказание
 
     pred_log = model.predict(x)
     pred_price = np.expm1(pred_log)[0]
