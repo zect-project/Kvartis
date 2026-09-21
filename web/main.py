@@ -52,7 +52,7 @@ async def predict(
         "city": [city],
         "rooms": [rooms],
         "m2": [m2],
-        'kitchen_m2": [kitchen_m2],
+        "kitchen_m2": [kitchen_m2],
         "repair": [repair],
         "district": [district],
         "building_age": [building_age], 
